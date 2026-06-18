@@ -82,6 +82,7 @@ nonisolated enum AssessmentProfile: String, Codable, Sendable {
     }
 
     var blurb: String { copy.blurb }
+    var bridge: String { copy.cta }
     var copy: ArchetypeCopy { ArchetypeStore.copy[self]! }
 }
 
