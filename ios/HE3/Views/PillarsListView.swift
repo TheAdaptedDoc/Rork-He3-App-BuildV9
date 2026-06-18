@@ -3,14 +3,21 @@ import SwiftUI
 struct PillarsListView: View {
     var progress: UserProgressViewModel
     var journal: JournalViewModel
+    var accessState: AccessState = .fullProgram
+
+    private var programOpen: Bool { accessState == .fullProgram }
 
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 2) {
+                    if !programOpen {
+                        renewalBanner
+                            .padding(.bottom, 14)
+                    }
                     ForEach(PillarID.allCases) { pillar in
-                        let unlocked = progress.isPillarUnlocked(pillar)
-                        let isCurrent = pillar == progress.currentPillar
+                        let unlocked = programOpen && progress.isPillarUnlocked(pillar)
+                        let isCurrent = programOpen && pillar == progress.currentPillar
 
                         NavigationLink(value: pillar) {
                             HStack(spacing: 0) {
@@ -83,6 +90,33 @@ struct PillarsListView: View {
             .navigationDestination(for: PillarID.self) { pillar in
                 PillarDetailView(pillar: pillar, progress: progress, journal: journal)
             }
+        }
+    }
+
+    private var renewalBanner: some View {
+        Button {
+            CheckoutLauncher.openCheckout(uid: AuthManager.shared.userId)
+        } label: {
+            HStack(spacing: 0) {
+                Rectangle().fill(HE3Theme.crimson).frame(width: 3)
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("THE FULL PROGRAM IS LOCKED")
+                        .font(BrandFont.mono(10, weight: .medium))
+                        .tracking(2)
+                        .foregroundStyle(HE3Theme.crimson)
+                    Text("Your 90 day window has closed. Daily practice stays open. Unlock the program to walk the pillars again.")
+                        .font(BrandFont.body(13, weight: .light))
+                        .foregroundStyle(HE3Theme.ash)
+                    Text("UNLOCK THE PROGRAM \u{2192}")
+                        .font(BrandFont.mono(11, weight: .medium))
+                        .tracking(1.5)
+                        .foregroundStyle(HE3Theme.textPrimary)
+                        .padding(.top, 2)
+                }
+                .padding(16)
+                Spacer()
+            }
+            .background(HE3Theme.surface)
         }
     }
 }

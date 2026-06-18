@@ -335,9 +335,9 @@ struct AboutDetailView: View {
                 sectionTitle("1. Acceptance of Terms")
                 Text("By accessing or using HE\u{00B3}, you agree to be bound by these Terms of Service. If you do not agree, do not use the app.")
                 sectionTitle("2. The Program")
-                Text("HE\u{00B3} provides educational and self-development content. It is not a substitute for medical, psychological, or professional advice.")
+                Text("HE\u{00B3} provides educational personal growth content. It is not a substitute for medical, psychological, or professional advice.")
                 sectionTitle("3. Purchases")
-                Text("The $297 program purchase grants 90 days of access. The $147 reactivation grants an additional 45 days. All purchases are processed by Apple and subject to Apple\u{2019}s refund policy.")
+                Text("The $297 program is a one time purchase that grants 90 days of access, with the work built to be completed in the first 30. Payment is processed securely on the web by Stripe. The app never processes payment. Refunds, if any, follow the policy shown at checkout.")
                 sectionTitle("4. User Conduct")
                 Text("You agree to use HE\u{00B3} for personal growth and not to redistribute, resell, or reproduce the content.")
                 sectionTitle("5. Limitation of Liability")
@@ -356,7 +356,7 @@ struct AboutDetailView: View {
                 sectionTitle("Your Rights")
                 Text("You may request deletion of your account and all associated data at any time by contacting support@he3system.com.")
                 sectionTitle("Third Parties")
-                Text("We use Apple for in-app purchases and Supabase for authentication and data storage. No advertising trackers.")
+                Text("We use Stripe for web checkout, Supabase for authentication and data storage, and Mux for lesson video delivery. No advertising trackers.")
             }
         }
     }

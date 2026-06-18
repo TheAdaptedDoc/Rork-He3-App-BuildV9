@@ -32,22 +32,22 @@ nonisolated enum PillarContentStore {
                     videoDuration: "12 MIN",
                     reflectionPrompts: [
                         "What truth have you been trading for safety?",
-                        "Where in your life has silence cost you the most — relationships, health, or self-trust?"
+                        "Where in your life has silence cost you the most: relationships, health, or self trust?"
                     ],
                     exercises: [
-                        "Cost Inventory: Write the specific price you've paid for silence — in relationships, health, and self-trust."
+                        "Cost Inventory: Write the specific price you've paid for silence, in relationships, health, and self trust."
                     ]
                 ),
                 PillarSection(
                     id: "s1_voices",
                     title: "The Voices Within",
-                    body: "Identify which voice has dominated your decisions and which you've buried alive. Ego? Self? Innate? Journaling reveals who's running the ship — and who's locked below deck. Awareness starts the rescue.",
+                    body: "Identify which voice has dominated your decisions and which you've buried alive. Ego? Self? Innate? Journaling reveals who's running the ship, and who's locked below deck. Awareness starts the rescue.",
                     icon: "person.3.fill",
                     videoTitle: "The Voices Within",
                     videoDuration: "14 MIN",
                     reflectionPrompts: [
                         "Which voice has dominated your decisions this past year?",
-                        "Which voice have you buried — and what has that cost you?"
+                        "Which voice have you buried, and what has that cost you?"
                     ],
                     exercises: [
                         "Voice Identification: Journal about a recent decision. Which voice made it? Which voice was silenced?"
@@ -71,7 +71,7 @@ nonisolated enum PillarContentStore {
                 PillarSection(
                     id: "s1_mirror",
                     title: "The Mirror Exercise",
-                    body: "Stare at yourself. Say aloud, 'I see the man beneath the act.' Look until discomfort becomes clarity. You are not correcting — you're remembering.",
+                    body: "Stare at yourself. Say aloud, 'I see the man beneath the act.' Look until discomfort becomes clarity. You are not correcting. You're remembering.",
                     icon: "person.crop.rectangle",
                     videoTitle: "The Mirror Exercise",
                     videoDuration: "10 MIN",
@@ -113,7 +113,7 @@ nonisolated enum PillarContentStore {
                     videoDuration: "13 MIN",
                     reflectionPrompts: [
                         "When did you first learn to silence yourself to belong?",
-                        "What voice have you abandoned — and what would it say if it could speak now?"
+                        "What voice have you abandoned, and what would it say if it could speak now?"
                     ],
                     exercises: [
                         "Grief Inventory: Write the unexpressed voice. What did you never say? Grieve it. Then release it."
@@ -161,7 +161,7 @@ nonisolated enum PillarContentStore {
                         "Which version of you are you actively building today?"
                     ],
                     exercises: [
-                        "The Dickens Visualization: Sit in silence for 10 minutes. Vividly imagine both futures — suppression and expression. Journal what you saw."
+                        "The Dickens Visualization: Sit in silence for 10 minutes. Vividly imagine both futures, suppression and expression. Journal what you saw."
                     ]
                 )
             ]
@@ -173,13 +173,13 @@ nonisolated enum PillarContentStore {
                 PillarSection(
                     id: "s3_energy",
                     title: "Channeling Recovered Energy",
-                    body: "Redirect what you once used to hide. Authenticity releases biochemical energy — dopamine now rewards alignment over applause.",
+                    body: "Redirect what you once used to hide. Authenticity releases biochemical energy. Dopamine now rewards alignment over applause.",
                     icon: "bolt.fill",
                     videoTitle: "Channeling Recovered Energy",
                     videoDuration: "13 MIN",
                     reflectionPrompts: [
                         "Where is your energy currently being spent on hiding rather than building?",
-                        "What would change if alignment — not applause — became your reward?"
+                        "What would change if alignment, not applause, became your reward?"
                     ],
                     exercises: [
                         "Energy Audit: List where your energy goes. Categorize: hiding vs. building. Redirect one hiding expense into building."
@@ -201,6 +201,21 @@ nonisolated enum PillarContentStore {
                     ]
                 ),
                 PillarSection(
+                    id: "s3_council",
+                    title: "The Council",
+                    body: "You did not meet three voices so you could pick a favorite. Integration is not having three voices. It is convening them. Before the decision that matters, bring all three to the table on purpose. Ego speaks first, what am I protecting, what am I trying to prove. Self speaks second, stripped of who is watching, what is actually true. Innate speaks last, what was my first answer before I reasoned it away. You do not decide by vote. You decide from the place where all three can sign their name. A divided man is fast. An integrated man is whole.",
+                    icon: "person.3.sequence.fill",
+                    videoTitle: "The Council",
+                    videoDuration: "5 MIN",
+                    reflectionPrompts: [
+                        "Name a decision in front of you right now. What does each voice say, in turn?",
+                        "Where do Ego and Innate disagree? That gap is the map. What is it showing you?"
+                    ],
+                    exercises: [
+                        "Run the Council: For one decision today, name it plainly. Hear all three voices in order, Ego then Self then Innate. Decide from the place all three can sign. Then write what each voice said, and where they fought."
+                    ]
+                ),
+                PillarSection(
                     id: "s3_embodiment",
                     title: "Embodiment of Truth",
                     body: "Behavior mirrors belief. People trust you because you no longer negotiate your authenticity.",
@@ -218,7 +233,7 @@ nonisolated enum PillarContentStore {
                 PillarSection(
                     id: "s3_leadership",
                     title: "Creative Leadership",
-                    body: "You don't perform anymore — you generate resonance. Work, love, and leadership all come from an identical place: congruence.",
+                    body: "You don't perform anymore. You generate resonance. Work, love, and leadership all come from an identical place: congruence.",
                     icon: "star.fill",
                     videoTitle: "Creative Leadership",
                     videoDuration: "15 MIN",
@@ -239,10 +254,10 @@ nonisolated enum PillarContentStore {
                     videoDuration: "11 MIN",
                     reflectionPrompts: [
                         "How is the man you are now structurally different from the man you were?",
-                        "What does it mean to live as HE³ — Ego, Self, and Innate, integrated?"
+                        "What does it mean to live as HE³, Ego, Self, and Innate integrated?"
                     ],
                     exercises: [
-                        "Signature Statement: Write a one-sentence statement that signs the man you are becoming. Read it aloud each morning this week."
+                        "Signature Statement: Write a one sentence statement that signs the man you are becoming. Read it aloud each morning this week."
                     ]
                 )
             ]
@@ -284,7 +299,7 @@ nonisolated enum PillarContentStore {
                 PillarSection(
                     id: "s4_purpose",
                     title: "Purpose in Motion",
-                    body: "Purpose feels less like a plan and more like a current — you just swim aligned with flow.",
+                    body: "Purpose feels less like a plan and more like a current. You just swim aligned with flow.",
                     icon: "water.waves",
                     videoTitle: "Purpose in Motion",
                     videoDuration: "12 MIN",
@@ -299,7 +314,7 @@ nonisolated enum PillarContentStore {
                 PillarSection(
                     id: "s4_needs",
                     title: "Six Human Needs",
-                    body: "Recognize how certainty, variety, significance, love, growth, and contribution now co-exist naturally without compromise.",
+                    body: "Recognize how certainty, variety, significance, love, growth, and contribution now coexist naturally without compromise.",
                     icon: "circle.hexagongrid.fill",
                     videoTitle: "Six Human Needs",
                     videoDuration: "15 MIN",
@@ -320,10 +335,25 @@ nonisolated enum PillarContentStore {
                     videoDuration: "18 MIN",
                     reflectionPrompts: [
                         "Write the opening line of your manifesto.",
-                        "What do all three voices — Ego, Self, Innate — agree you must commit to going forward?"
+                        "What do all three voices, Ego, Self, Innate, agree you must commit to going forward?"
                     ],
                     exercises: [
                         "Write Your Manifesto: This is your living blueprint. All three voices contribute. No editing. Raw truth."
+                    ]
+                ),
+                PillarSection(
+                    id: "s4_recalibration",
+                    title: "The Re Calibration",
+                    body: "On the first day, before you touched Pillar One, you measured. Now you measure again. Take the Three Voices Assessment a second time. Same questions. Thirty days later. Do not trust the feeling. The feeling lies in both directions. Feeling is weather. The measurement is climate. Lay the two side by side. Day one. Day thirty. The gap is not motivation. It is evidence, in your own hand, that the buried voice has a pulse again and the loud one took his seat.",
+                    icon: "chart.line.uptrend.xyaxis",
+                    videoTitle: "The Re Calibration",
+                    videoDuration: "4 MIN",
+                    reflectionPrompts: [
+                        "Before you retake it, write what you expect to see. Then take it and compare.",
+                        "Where is the gap between day one and day thirty largest? What moved it?"
+                    ],
+                    exercises: [
+                        "Retake the Three Voices Assessment. Lay your day one result next to your day thirty result. Keep both. When you fracture, the day one number is the man you do not have to be again."
                     ]
                 )
             ]

@@ -1,5 +1,8 @@
 import SwiftUI
 
+/// Real sign in. Apple or Google through Supabase Auth. No payment here.
+/// After sign in, ContentView reads entitlement and routes to the program or
+/// the Locked screen.
 struct LoginSheet: View {
     var progress: UserProgressViewModel
     @Environment(\.dismiss) private var dismiss
@@ -9,53 +12,25 @@ struct LoginSheet: View {
             ZStack {
                 HE3Theme.background.ignoresSafeArea()
 
-                VStack(spacing: 32) {
+                VStack(spacing: 28) {
                     Spacer()
 
-                    VStack(spacing: 16) {
-                        AnimatedLogoView(animate: false, compact: true)
+                    AnimatedLogoView(animate: false, compact: true)
 
-                        Text("WELCOME BACK")
+                    VStack(spacing: 10) {
+                        Text("WELCOME")
                             .font(BrandFont.display(30))
                             .foregroundStyle(HE3Theme.textPrimary)
 
-                        Text("Sign in to continue your journey.")
+                        Text("Sign in to enter your program. One login across the app and your Brotherhood space.")
                             .font(BrandFont.body(16, weight: .light))
                             .foregroundStyle(HE3Theme.ash)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal, 28)
                     }
 
-                    Button {
-                        progress.completePurchase()
-                        dismiss()
-                    } label: {
-                        Text("RETURN TO YOUR JOURNEY \u{2192}")
-                            .font(BrandFont.mono(13, weight: .medium))
-                            .tracking(2)
-                            .foregroundStyle(HE3Theme.background)
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 18)
-                            .background(HE3Theme.gold)
-                            .clipShape(.rect(cornerRadius: 0))
-                    }
-                    .padding(.horizontal, 32)
-                    .sensoryFeedback(.impact(weight: .medium), trigger: progress.hasPurchased)
-
-                    if let profile = progress.assessmentProfile {
-                        VStack(spacing: 4) {
-                            Text(profile.title.uppercased())
-                                .font(BrandFont.mono(11, weight: .medium))
-                                .tracking(1)
-                                .foregroundStyle(HE3Theme.gold)
-
-                            Text("DAY \(progress.daysElapsed) OF 90 \u{00B7} \(progress.daysRemaining) DAYS REMAINING")
-                                .font(BrandFont.mono(10))
-                                .foregroundStyle(HE3Theme.ashLight)
-                        }
-                    } else {
-                        Text("Sign in to access your program.")
-                            .font(BrandFont.body(14, weight: .light))
-                            .foregroundStyle(HE3Theme.ashLight)
-                    }
+                    SignInButtons(onSignedIn: { dismiss() })
+                        .padding(.horizontal, 28)
 
                     Spacer()
                     Spacer()

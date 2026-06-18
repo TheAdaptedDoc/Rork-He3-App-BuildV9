@@ -4,7 +4,10 @@ struct DashboardView: View {
     var progress: UserProgressViewModel
     var journal: JournalViewModel
     var rituals: RitualVideoViewModel
+    var accessState: AccessState = .fullProgram
     @State private var showNightPractice = false
+    @State private var showRecalibration = false
+    @State private var showReadback = false
 
     var body: some View {
         NavigationStack {
@@ -13,10 +16,21 @@ struct DashboardView: View {
                     if progress.godMode {
                         godModeBanner
                     }
-                    countdownSection
-                    currentPillarCard
+                    if accessState == .dailyPracticeOnly {
+                        dailyPracticeBanner
+                    }
+                    if accessState == .fullProgram {
+                        countdownSection
+                        currentPillarCard
+                    } else {
+                        lockedProgramCard
+                    }
                     practiceSection
                     streakSection
+                    if progress.hasCompletedAssessment {
+                        voiceProfileButton
+                        recalibrationButton
+                    }
                     nightPracticeButton
                 }
                 .padding(.horizontal, 16)
@@ -31,6 +45,114 @@ struct DashboardView: View {
             .fullScreenCover(isPresented: $showNightPractice) {
                 NightPracticeView(rituals: rituals)
             }
+            .fullScreenCover(isPresented: $showRecalibration) {
+                RecalibrationView(progress: progress)
+            }
+            .fullScreenCover(isPresented: $showReadback) {
+                VoiceProfileReadbackView(progress: progress)
+            }
+        }
+    }
+
+    private var dailyPracticeBanner: some View {
+        HStack(spacing: 12) {
+            Image(systemName: "moon.stars.fill")
+                .font(.caption)
+                .foregroundStyle(HE3Theme.obsidian)
+            VStack(alignment: .leading, spacing: 2) {
+                Text("DAILY PRACTICE")
+                    .font(BrandFont.mono(10, weight: .medium))
+                    .tracking(2)
+                    .foregroundStyle(HE3Theme.obsidian)
+                Text("Your ritual and journal stay open. The full program window has closed.")
+                    .font(BrandFont.body(11, weight: .light))
+                    .foregroundStyle(HE3Theme.ash)
+            }
+            Spacer()
+        }
+        .padding(12)
+        .overlay(Rectangle().stroke(HE3Theme.obsidian, lineWidth: 1.5))
+    }
+
+    private var lockedProgramCard: some View {
+        Button {
+            CheckoutLauncher.openCheckout(uid: AuthManager.shared.userId)
+        } label: {
+            HStack(spacing: 0) {
+                Rectangle().fill(HE3Theme.crimson).frame(width: 3)
+                VStack(alignment: .leading, spacing: 10) {
+                    HStack {
+                        Image(systemName: "lock.fill")
+                            .font(.caption)
+                            .foregroundStyle(HE3Theme.crimson)
+                        Text("THE FULL PROGRAM")
+                            .font(BrandFont.mono(10, weight: .medium))
+                            .tracking(2)
+                            .foregroundStyle(HE3Theme.crimson)
+                        Spacer()
+                    }
+                    Text("UNLOCK THE 30 DAY SPRINT")
+                        .font(BrandFont.display(22))
+                        .foregroundStyle(HE3Theme.textPrimary)
+                    Text("Open a new 90 day window and walk all four pillars again.")
+                        .font(BrandFont.body(14, weight: .light))
+                        .foregroundStyle(HE3Theme.ash)
+                }
+                .padding(18)
+            }
+            .background(HE3Theme.surface)
+        }
+    }
+
+    private var voiceProfileButton: some View {
+        Button {
+            showReadback = true
+        } label: {
+            HStack(spacing: 12) {
+                Image(systemName: "waveform.path")
+                    .font(.caption)
+                    .foregroundStyle(HE3Theme.ember)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("READING YOUR VOICE PROFILE")
+                        .font(BrandFont.display(16))
+                        .foregroundStyle(HE3Theme.textPrimary)
+                    Text("YOUR DAY 0 RESULT, READ BACK")
+                        .font(BrandFont.mono(10))
+                        .foregroundStyle(HE3Theme.ashLight)
+                }
+                Spacer()
+                Text("\u{2192}")
+                    .font(BrandFont.mono(16))
+                    .foregroundStyle(HE3Theme.ember)
+            }
+            .padding(18)
+            .background(HE3Theme.surface)
+        }
+    }
+
+    private var recalibrationButton: some View {
+        Button {
+            showRecalibration = true
+        } label: {
+            HStack(spacing: 12) {
+                Image(systemName: "chart.line.uptrend.xyaxis")
+                    .font(.caption)
+                    .foregroundStyle(HE3Theme.crimson)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("THE RE CALIBRATION")
+                        .font(BrandFont.display(16))
+                        .foregroundStyle(HE3Theme.textPrimary)
+                    Text("MEASURE THE SHIFT, DAY 0 TO DAY 30")
+                        .font(BrandFont.mono(10))
+                        .foregroundStyle(HE3Theme.ashLight)
+                }
+                Spacer()
+                Text("\u{2192}")
+                    .font(BrandFont.mono(16))
+                    .foregroundStyle(HE3Theme.crimson)
+            }
+            .padding(18)
+            .background(HE3Theme.surface)
         }
     }
 

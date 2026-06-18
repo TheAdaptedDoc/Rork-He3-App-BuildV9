@@ -64,24 +64,8 @@ struct AssessmentOnboardingFlow: View {
                     }
                 )
             case .purchase:
-                PurchaseView(progress: progress, onPurchaseComplete: {
-                    dismiss()
-                })
-                .overlay(alignment: .topLeading) {
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image(systemName: "xmark")
-                            .font(.body.weight(.medium))
-                            .foregroundStyle(HE3Theme.bone.opacity(0.6))
-                            .frame(width: 36, height: 36)
-                            .background(HE3Theme.iron)
-                            .clipShape(Circle())
-                    }
-                    .padding(.leading, 20)
-                    .padding(.top, 12)
-                }
-                .transition(.opacity.combined(with: .move(edge: .trailing)))
+                UnlockPromptView(progress: progress, onClose: { dismiss() })
+                    .transition(.opacity.combined(with: .move(edge: .trailing)))
             }
         }
         .preferredColorScheme(.light)
@@ -149,11 +133,11 @@ struct AssessmentIntroView: View {
                     .animation(.easeOut(duration: 0.6).delay(0.1), value: appeared)
 
                     VStack(alignment: .leading, spacing: 16) {
-                        InstructionRow(number: "01", text: "27 statements about how you operate")
+                        InstructionRow(number: "01", text: "34 statements about how you operate")
 
                         InstructionRow(number: "02", text: "Rate each from 1 (Strongly Disagree) to 5 (Strongly Agree)")
 
-                        InstructionRow(number: "03", text: "Answer honestly — there are no right or wrong answers")
+                        InstructionRow(number: "03", text: "Answer honestly, there are no right or wrong answers")
                     }
                     .padding(24)
                     .background(HE3Theme.iron)
@@ -163,7 +147,7 @@ struct AssessmentIntroView: View {
                     .offset(y: appeared ? 0 : 12)
                     .animation(.easeOut(duration: 0.6).delay(0.25), value: appeared)
 
-                    Text("When you finish, you'll immediately see which of your three inner voices is dominant — and which you've silenced.")
+                    Text("When you finish, you'll immediately see which of your three inner voices is dominant, and which you've silenced.")
                         .font(BrandFont.body(15, weight: .light))
                         .foregroundStyle(HE3Theme.ash)
                         .multilineTextAlignment(.center)
@@ -192,14 +176,14 @@ struct AssessmentIntroView: View {
                 .opacity(appeared ? 1 : 0)
                 .animation(.easeOut(duration: 0.6).delay(0.55), value: appeared)
 
-                Text("27 QUESTIONS \u{00B7} 5 MINUTES \u{00B7} CLEAR SIGNAL")
+                Text("34 QUESTIONS \u{00B7} 7 MINUTES \u{00B7} CLEAR SIGNAL")
                     .font(BrandFont.mono(10))
                     .foregroundStyle(HE3Theme.ashLight)
                     .opacity(appeared ? 1 : 0)
                     .animation(.easeOut(duration: 0.6).delay(0.6), value: appeared)
 
                 Button(action: onSkipToPurchase) {
-                    Text("SKIP TO THE 30-DAY SPRINT \u{2192}")
+                    Text("SKIP TO THE 30 DAY SPRINT \u{2192}")
                         .font(BrandFont.mono(11, weight: .medium))
                         .tracking(1)
                         .foregroundStyle(HE3Theme.gold)

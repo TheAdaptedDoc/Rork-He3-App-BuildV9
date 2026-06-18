@@ -32,7 +32,7 @@ struct HeroLandingView: View {
             AssessmentOnboardingFlow(progress: progress)
         }
         .fullScreenCover(isPresented: $showPurchase) {
-            PurchaseFlowWrapper(progress: progress)
+            LoginSheet(progress: progress)
         }
         .sheet(isPresented: $showLogin) {
             LoginSheet(progress: progress)
@@ -41,9 +41,11 @@ struct HeroLandingView: View {
             AccessCodeSheet(
                 onAdmin: { showAdminPortal = true },
                 onReview: {
+#if DEBUG
                     withAnimation(.easeOut(duration: 0.4)) {
                         progress.godMode = true
                     }
+#endif
                 }
             )
             .presentationDetents([.medium, .large])
@@ -141,7 +143,7 @@ struct HeroLandingView: View {
 
             Spacer().frame(height: 8)
 
-            Text("End internal conflict. Rebuild self-trust.\nLead your life from integrated power.")
+            Text("End internal conflict. Rebuild self trust.\nLead your life from integrated power.")
                 .font(BrandFont.body(18, weight: .regular))
                 .foregroundStyle(HE3Theme.ash)
                 .multilineTextAlignment(.center)
@@ -194,7 +196,7 @@ struct HeroLandingView: View {
             SectionHeader(label: "THE PROBLEM", title: "SOUND FAMILIAR?")
 
             VStack(spacing: 8) {
-                PainPointRow(text: "You overthink every decision, then second-guess it anyway")
+                PainPointRow(text: "You overthink every decision, then second guess it anyway")
                 PainPointRow(text: "You perform strength while suppressing what you actually feel")
                 PainPointRow(text: "You push through exhaustion instead of admitting you need space")
                 PainPointRow(text: "You feel split between who you are and who you present")
@@ -266,7 +268,7 @@ struct HeroLandingView: View {
 
             VStack(alignment: .leading, spacing: 16) {
                 TransformRow(text: "Internal conflict replaced with integrated power")
-                TransformRow(text: "Self-trust rebuilt from the foundation up")
+                TransformRow(text: "Self trust rebuilt from the foundation up")
                 TransformRow(text: "Relationships fueled by authenticity, not performance")
                 TransformRow(text: "Discipline that runs on instinct, not willpower")
                 TransformRow(text: "A masculine identity that doesn\u{2019}t need a mask")

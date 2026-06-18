@@ -301,29 +301,13 @@ struct SectionDetailView: View {
     }
 
     private var videoPlaceholder: some View {
-        ZStack {
-            Rectangle()
-                .fill(HE3Theme.iron)
-                .frame(height: 210)
-                .clipShape(.rect(cornerRadius: 0))
-
-            VStack(spacing: 12) {
-                Image(systemName: "play.circle.fill")
-                    .font(.system(size: 48))
-                    .foregroundStyle(HE3Theme.gold)
-
-                Text(section.videoTitle)
-                    .font(BrandFont.display(18))
-                    .foregroundStyle(HE3Theme.textPrimary)
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal, 16)
-
-                Text(section.videoDuration)
-                    .font(BrandFont.mono(10, weight: .medium))
-                    .tracking(1.5)
-                    .foregroundStyle(HE3Theme.bone.opacity(0.5))
-            }
-        }
+        // Real streaming player. Resolves section.id to its lesson, mints a
+        // signed Mux URL, and gates on the same entitlement as the sprint.
+        LessonPlayerView(
+            slug: section.id,
+            fallbackTitle: section.videoTitle,
+            fallbackDuration: section.videoDuration
+        )
     }
 
     private var bodyText: some View {

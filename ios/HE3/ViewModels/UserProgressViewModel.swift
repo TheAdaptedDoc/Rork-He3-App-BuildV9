@@ -11,6 +11,9 @@ class UserProgressViewModel {
     var suppressedVoice: Voice?
     var assessmentScores: AssessmentScores?
     var assessmentProfile: AssessmentProfile?
+    /// Day 0 baseline, captured on first assessment. The Re Calibration on Day 30
+    /// reads this back so the man sees his spread fall and integration climb.
+    var assessmentBaseline: AssessmentScores?
     var programStartDate: Date?
     var currentStreak: Int = 0
     var lastPracticeDate: String?
@@ -20,7 +23,12 @@ class UserProgressViewModel {
 
     /// God Mode — when true, unlocks all pillars and bypasses gating for app-wide content review.
     /// In-memory only; resets when the app relaunches so it can't be left on accidentally.
+    /// DEBUG only: in release builds it is permanently false and cannot be enabled by any path.
+#if DEBUG
     var godMode: Bool = false
+#else
+    var godMode: Bool { get { false } set { } }
+#endif
 
     private let defaults = UserDefaults.standard
     private let encoder = JSONEncoder()
@@ -137,11 +145,15 @@ class UserProgressViewModel {
 
     func completeAssessment(scores: AssessmentScores) {
         hasCompletedAssessment = true
+        let isFirstTake = assessmentBaseline == nil
         assessmentScores = scores
         assessmentProfile = scores.profile
         dominantVoice = scores.dominantVoice
         suppressedVoice = scores.suppressedVoice
+        // First time through sets the day 0 baseline for the Re Calibration.
+        if isFirstTake { assessmentBaseline = scores }
         save()
+        AssessmentSync.persist(scores: scores, phase: isFirstTake ? "day0" : "day30")
     }
 
     var userName: String = ""
@@ -214,6 +226,9 @@ class UserProgressViewModel {
         if let scoresData = try? encoder.encode(assessmentScores) {
             defaults.set(scoresData, forKey: "he3_scores")
         }
+        if let baselineData = try? encoder.encode(assessmentBaseline) {
+            defaults.set(baselineData, forKey: "he3_scores_day0")
+        }
     }
 
     func load() {
@@ -232,6 +247,10 @@ class UserProgressViewModel {
         if let data = defaults.data(forKey: "he3_scores"),
            let scores = try? decoder.decode(AssessmentScores.self, from: data) {
             assessmentScores = scores
+        }
+        if let data = defaults.data(forKey: "he3_scores_day0"),
+           let baseline = try? decoder.decode(AssessmentScores.self, from: data) {
+            assessmentBaseline = baseline
         }
         programStartDate = defaults.object(forKey: "he3_startDate") as? Date
         currentStreak = defaults.integer(forKey: "he3_streak")

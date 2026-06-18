@@ -6,22 +6,34 @@ struct ContentView: View {
     @State private var rituals = RitualVideoViewModel()
     @State private var selectedTab = 0
     @State private var showSplash: Bool = true
+    @Environment(\.scenePhase) private var scenePhase
 
-    @State private var showPostPurchaseOath: Bool = false
+    private var auth = AuthManager.shared
+    private var entitlement = EntitlementService.shared
 
     var body: some View {
         ZStack {
             Group {
-                if progress.hasPurchased && !progress.hasCommitted {
-                    CommitmentOathView(progress: progress, onCommit: {
-                        withAnimation(.easeOut(duration: 0.4)) {
-                            showPostPurchaseOath = false
-                        }
-                    })
-                } else if progress.hasPurchased || progress.godMode {
-                    mainTabView
-                } else {
+                if !auth.isSignedIn && !progress.godMode {
+                    // Signed out: marketing, the free assessment, and sign in.
                     HeroLandingView(progress: progress)
+                } else if progress.godMode {
+                    mainTabView(.fullProgram)
+                } else {
+                    // Signed in: gate on server entitlement, three states.
+                    switch entitlement.state {
+                    case .fullProgram:
+                        if !progress.hasCommitted {
+                            CommitmentOathView(progress: progress, onCommit: {})
+                        } else {
+                            mainTabView(.fullProgram)
+                        }
+                    case .dailyPracticeOnly:
+                        // The Standard active, full program window closed.
+                        mainTabView(.dailyPracticeOnly)
+                    case .locked:
+                        LockedProgramView(entitlement: entitlement)
+                    }
                 }
             }
             .opacity(showSplash ? 0 : 1)
@@ -39,22 +51,53 @@ struct ContentView: View {
             rituals.load()
             configureAppearance()
             Task {
+                await auth.restore()
+                await entitlement.refresh()
+                syncWindow()
+                if entitlement.hasProgramAccess {
+                    await VideoService.shared.loadCatalog()
+                }
+            }
+            Task {
                 try? await Task.sleep(for: .seconds(3.2))
                 withAnimation(.easeOut(duration: 0.6)) {
                     showSplash = false
                 }
             }
         }
+        .onChange(of: scenePhase) { _, phase in
+            // The app refreshes when it returns to the foreground and unlocks
+            // from the new entitlement, per the build spec.
+            if phase == .active {
+                Task {
+                    await entitlement.refresh()
+                    syncWindow()
+                    if entitlement.hasProgramAccess && VideoService.shared.catalog.isEmpty {
+                        await VideoService.shared.loadCatalog()
+                    }
+                }
+            }
+        }
     }
 
-    private var mainTabView: some View {
+    /// Drive the dashboard countdown from the server window. access_end is the
+    /// truth; the start is 90 days before it.
+    private func syncWindow() {
+        guard let end = entitlement.current.accessEnd else { return }
+        let start = Calendar.current.date(byAdding: .day, value: -90, to: end)
+        if progress.programStartDate == nil, let start {
+            progress.programStartDate = start
+        }
+    }
+
+    private func mainTabView(_ mode: AccessState) -> some View {
         TabView(selection: $selectedTab) {
             Tab("Home", systemImage: "square.grid.2x2.fill", value: 0) {
-                DashboardView(progress: progress, journal: journal, rituals: rituals)
+                DashboardView(progress: progress, journal: journal, rituals: rituals, accessState: mode)
             }
 
             Tab("Pillars", systemImage: "rectangle.stack.fill", value: 1) {
-                PillarsListView(progress: progress, journal: journal)
+                PillarsListView(progress: progress, journal: journal, accessState: mode)
             }
 
             Tab("Journal", systemImage: "book.fill", value: 2) {
