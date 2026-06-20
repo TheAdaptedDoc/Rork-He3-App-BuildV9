@@ -21,14 +21,16 @@ class UserProgressViewModel {
     var manifesto: String = ""
     var completedSectionIDs: Set<String> = []
 
-    /// God Mode — when true, unlocks all pillars and bypasses gating for app-wide content review.
+    /// God Mode / Owner Preview — when true, unlocks all pillars and bypasses the
+    /// sign in wall and the paywall so the owner can review the whole app.
     /// In-memory only; resets when the app relaunches so it can't be left on accidentally.
-    /// DEBUG only: in release builds it is permanently false and cannot be enabled by any path.
-#if DEBUG
-    var godMode: Bool = false
-#else
-    var godMode: Bool { get { false } set { } }
-#endif
+    /// Controlled by AppConfig.ownerPreviewEnabled: when that flag is false (App Store
+    /// build) godMode is permanently false and cannot be enabled by any path.
+    private var _godMode: Bool = false
+    var godMode: Bool {
+        get { AppConfig.ownerPreviewEnabled && _godMode }
+        set { _godMode = AppConfig.ownerPreviewEnabled ? newValue : false }
+    }
 
     private let defaults = UserDefaults.standard
     private let encoder = JSONEncoder()
@@ -128,6 +130,20 @@ class UserProgressViewModel {
 
     func isPracticeCompleted(_ id: String) -> Bool {
         todayLog().completedPracticeIDs.contains(id)
+    }
+
+    /// The Signal Log silence gate. The Act Pass stays locked until a man has held
+    /// the Quiet Bridge silence on this many separate days, so action is earned by
+    /// the discipline of receiving first.
+    static let silenceHabitThreshold = 7
+
+    /// Distinct days the Quiet Bridge silence was held.
+    var quietBridgeSessions: Int {
+        dailyLogs.values.filter { $0.completedPracticeIDs.contains("quiet_bridge") }.count
+    }
+
+    var silenceHabitSet: Bool {
+        quietBridgeSessions >= Self.silenceHabitThreshold
     }
 
     var todayCompletedCount: Int {

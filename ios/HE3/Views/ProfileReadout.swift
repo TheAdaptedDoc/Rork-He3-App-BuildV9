@@ -75,11 +75,11 @@ struct ProfileReadout: View {
                 Text("DOMINANT \(scores.dominantVoice.displayName.uppercased())  ·  FLOOR \(scores.suppressedVoice.displayName.uppercased())")
                     .font(BrandFont.mono(8, weight: .medium)).tracking(1).foregroundStyle(HE3Theme.ashLight)
             }
-            scoreBar(label: "EGO", color: HE3Theme.voiceColor(.ego), score: scores.ego, max: 45, band: scores.voiceBand(scores.ego))
-            scoreBar(label: "SELF", color: HE3Theme.voiceColor(.selfVoice), score: scores.selfVoice, max: 45, band: scores.voiceBand(scores.selfVoice))
-            scoreBar(label: "INNATE", color: HE3Theme.voiceColor(.innate), score: scores.innate, max: 45, band: scores.voiceBand(scores.innate))
+            scoreBar(voice: .ego, label: "EGO", color: HE3Theme.voiceColor(.ego), score: scores.ego, max: 45, band: scores.voiceBand(scores.ego))
+            scoreBar(voice: .selfVoice, label: "SELF", color: HE3Theme.voiceColor(.selfVoice), score: scores.selfVoice, max: 45, band: scores.voiceBand(scores.selfVoice))
+            scoreBar(voice: .innate, label: "INNATE", color: HE3Theme.voiceColor(.innate), score: scores.innate, max: 45, band: scores.voiceBand(scores.innate))
             Rectangle().fill(HE3Theme.paperDark).frame(height: 1)
-            scoreBar(label: "INTEGRATION", color: HE3Theme.crimson, score: scores.integration, max: 35, band: scores.integrationBand)
+            scoreBar(voice: nil, label: "INTEGRATION", color: HE3Theme.crimson, score: scores.integration, max: 35, band: scores.integrationBand)
         }
         .padding(22)
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -87,9 +87,12 @@ struct ProfileReadout: View {
         .padding(.horizontal, 24)
     }
 
-    private func scoreBar(label: String, color: Color, score: Int, max: Int, band: String) -> some View {
+    private func scoreBar(voice: Voice?, label: String, color: Color, score: Int, max: Int, band: String) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
+                if let voice {
+                    VoiceIcon(voice: voice, size: 16)
+                }
                 Text(label).font(BrandFont.mono(11, weight: .medium)).tracking(1).foregroundStyle(HE3Theme.textPrimary)
                 Spacer()
                 Text("\(score) / \(max)").font(BrandFont.mono(11, weight: .medium)).foregroundStyle(HE3Theme.ash)

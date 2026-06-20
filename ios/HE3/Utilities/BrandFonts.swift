@@ -8,12 +8,12 @@ enum BrandFont {
 
     /// Oswald 700 — the HE³ logo wordmark only.
     static func logo(_ size: CGFloat) -> Font {
-        .custom("Oswald", size: size).weight(.bold)
+        .custom("Oswald-Bold", size: size)
     }
 
     /// Playfair Display Medium Italic — pull quotes, taglines, emotional anchors.
     static func quote(_ size: CGFloat) -> Font {
-        .custom("Playfair Display", size: size).weight(.medium)
+        .custom("PlayfairDisplay-MediumItalic", size: size)
     }
 
     static func body(_ size: CGFloat, weight: BrandFontWeight = .light) -> Font {

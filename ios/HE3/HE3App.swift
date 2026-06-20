@@ -14,6 +14,7 @@ struct HE3App: App {
 
 class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     nonisolated func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
+        FontRegistrar.registerAll()
         Task { @MainActor in
             UNUserNotificationCenter.current().delegate = self
         }

@@ -6,6 +6,8 @@ import SwiftUI
 struct LoginSheet: View {
     var progress: UserProgressViewModel
     @Environment(\.dismiss) private var dismiss
+    @State private var showAccessCode = false
+    @State private var showAdminPortal = false
 
     var body: some View {
         NavigationStack {
@@ -33,6 +35,20 @@ struct LoginSheet: View {
                         .padding(.horizontal, 28)
 
                     Spacer()
+
+                    // Discreet owner entry. Hidden in the App Store build.
+                    if AppConfig.ownerPreviewEnabled {
+                        Button {
+                            showAccessCode = true
+                        } label: {
+                            Text("Admin access")
+                                .font(BrandFont.mono(10))
+                                .tracking(1)
+                                .foregroundStyle(HE3Theme.ashLight.opacity(0.6))
+                        }
+                        .padding(.bottom, 12)
+                    }
+
                     Spacer()
                 }
             }
@@ -46,6 +62,20 @@ struct LoginSheet: View {
                     }
                 }
             }
+        }
+        .sheet(isPresented: $showAccessCode) {
+            AccessCodeSheet(
+                onAdmin: { showAdminPortal = true },
+                onReview: {
+                    progress.godMode = true
+                    dismiss()
+                }
+            )
+            .presentationDetents([.medium, .large])
+            .presentationDragIndicator(.visible)
+        }
+        .fullScreenCover(isPresented: $showAdminPortal) {
+            AdminPortalView()
         }
         .presentationDetents([.medium, .large])
         .presentationDragIndicator(.visible)

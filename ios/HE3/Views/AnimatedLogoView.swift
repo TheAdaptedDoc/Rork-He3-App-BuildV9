@@ -41,16 +41,19 @@ struct AnimatedLogoView: View {
 
 /// Three crimson vertical marks — the HE³ series signature.
 struct SeriesMarks: View {
-    var color: Color = HE3Theme.crimson
+    var color: Color? = nil   // nil means use the true tri-color voice marks
     var height: CGFloat = 18
     var width: CGFloat = 4
     var spacing: CGFloat = 5
 
+    // Ego crimson, Self obsidian, Innate ember, matching the brand logo mark.
+    private let voiceColors: [Color] = [HE3Theme.crimson, HE3Theme.obsidian, HE3Theme.ember]
+
     var body: some View {
         HStack(spacing: spacing) {
-            ForEach(0..<3, id: \.self) { _ in
+            ForEach(0..<3, id: \.self) { i in
                 Rectangle()
-                    .fill(color)
+                    .fill(color ?? voiceColors[i])
                     .frame(width: width, height: height)
             }
         }

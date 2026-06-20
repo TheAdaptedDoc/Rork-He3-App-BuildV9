@@ -415,7 +415,7 @@
 				INFOPLIST_KEY_NSCameraUsageDescription = "HE\\u00b3 uses the camera so you can record your nightly Courage Ritual videos.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "HE\\u00b3 uses the microphone so your Courage Ritual videos capture your voice.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "HE\\u00b3 saves your Courage Ritual videos to Photos when you choose to export them.";
-				INFOPLIST_KEY_UIAppFonts = "(Fonts/BebasNeue-Regular.otf, Fonts/CormorantGaramond-Light.ttf, Fonts/CormorantGaramond-LightItalic.ttf, Fonts/CormorantGaramond-Regular.ttf, Fonts/CormorantGaramond-Medium.ttf, Fonts/CormorantGaramond-SemiBold.ttf, Fonts/CormorantGaramond-Bold.ttf, Fonts/DMMono-Light.ttf, Fonts/DMMono-Regular.ttf, Fonts/DMMono-Medium.ttf, Fonts/Oswald-Bold.ttf, Fonts/PlayfairDisplay-Italic.ttf)";
+				INFOPLIST_KEY_UIAppFonts = "(Fonts/BebasNeue-Regular.otf, Fonts/CormorantGaramond-Light.ttf, Fonts/CormorantGaramond-LightItalic.ttf, Fonts/CormorantGaramond-Regular.ttf, Fonts/CormorantGaramond-Medium.ttf, Fonts/CormorantGaramond-SemiBold.ttf, Fonts/CormorantGaramond-Bold.ttf, Fonts/DMMono-Light.ttf, Fonts/DMMono-Regular.ttf, Fonts/DMMono-Medium.ttf, Fonts/Oswald-Bold.ttf, Fonts/PlayfairDisplay-Italic.ttf, Fonts/PlayfairDisplay-MediumItalic.ttf)";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -453,7 +453,7 @@
 				INFOPLIST_KEY_NSCameraUsageDescription = "HE\\u00b3 uses the camera so you can record your nightly Courage Ritual videos.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "HE\\u00b3 uses the microphone so your Courage Ritual videos capture your voice.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "HE\\u00b3 saves your Courage Ritual videos to Photos when you choose to export them.";
-				INFOPLIST_KEY_UIAppFonts = "(Fonts/BebasNeue-Regular.otf, Fonts/CormorantGaramond-Light.ttf, Fonts/CormorantGaramond-LightItalic.ttf, Fonts/CormorantGaramond-Regular.ttf, Fonts/CormorantGaramond-Medium.ttf, Fonts/CormorantGaramond-SemiBold.ttf, Fonts/CormorantGaramond-Bold.ttf, Fonts/DMMono-Light.ttf, Fonts/DMMono-Regular.ttf, Fonts/DMMono-Medium.ttf, Fonts/Oswald-Bold.ttf, Fonts/PlayfairDisplay-Italic.ttf)";
+				INFOPLIST_KEY_UIAppFonts = "(Fonts/BebasNeue-Regular.otf, Fonts/CormorantGaramond-Light.ttf, Fonts/CormorantGaramond-LightItalic.ttf, Fonts/CormorantGaramond-Regular.ttf, Fonts/CormorantGaramond-Medium.ttf, Fonts/CormorantGaramond-SemiBold.ttf, Fonts/CormorantGaramond-Bold.ttf, Fonts/DMMono-Light.ttf, Fonts/DMMono-Regular.ttf, Fonts/DMMono-Medium.ttf, Fonts/Oswald-Bold.ttf, Fonts/PlayfairDisplay-Italic.ttf, Fonts/PlayfairDisplay-MediumItalic.ttf)";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

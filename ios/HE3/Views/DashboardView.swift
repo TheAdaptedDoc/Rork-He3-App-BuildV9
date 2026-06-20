@@ -4,10 +4,13 @@ struct DashboardView: View {
     var progress: UserProgressViewModel
     var journal: JournalViewModel
     var rituals: RitualVideoViewModel
+    var signalLog: SignalLogViewModel
     var accessState: AccessState = .fullProgram
     @State private var showNightPractice = false
     @State private var showRecalibration = false
     @State private var showReadback = false
+    @State private var showCouncil = false
+    @State private var showSignalLog = false
 
     var body: some View {
         NavigationStack {
@@ -27,6 +30,10 @@ struct DashboardView: View {
                     }
                     practiceSection
                     streakSection
+                    if accessState == .fullProgram {
+                        councilButton
+                        signalLogButton
+                    }
                     if progress.hasCompletedAssessment {
                         voiceProfileButton
                         recalibrationButton
@@ -50,6 +57,12 @@ struct DashboardView: View {
             }
             .fullScreenCover(isPresented: $showReadback) {
                 VoiceProfileReadbackView(progress: progress)
+            }
+            .fullScreenCover(isPresented: $showCouncil) {
+                CouncilView(progress: progress)
+            }
+            .fullScreenCover(isPresented: $showSignalLog) {
+                SignalLogView(log: signalLog, progress: progress)
             }
         }
     }
@@ -99,6 +112,62 @@ struct DashboardView: View {
                         .foregroundStyle(HE3Theme.ash)
                 }
                 .padding(18)
+            }
+            .background(HE3Theme.surface)
+        }
+    }
+
+    private var signalLogButton: some View {
+        Button {
+            showSignalLog = true
+        } label: {
+            HStack(spacing: 0) {
+                Rectangle().fill(HE3Theme.ember).frame(width: 3)
+                VStack(alignment: .leading, spacing: 8) {
+                    HStack(spacing: 8) {
+                        VoiceIcon(voice: .innate, size: 16)
+                        Text("PILLAR ONE \u{00B7} INNATE")
+                            .font(BrandFont.mono(9, weight: .medium)).tracking(2)
+                            .foregroundStyle(HE3Theme.ember)
+                        Spacer()
+                    }
+                    Text("THE SIGNAL LOG")
+                        .font(BrandFont.display(24))
+                        .foregroundStyle(HE3Theme.textPrimary)
+                    Text("Capture what you receive in the silence. Then act on it.")
+                        .font(BrandFont.body(14, weight: .light))
+                        .foregroundStyle(HE3Theme.ash)
+                }
+                .padding(18)
+                Spacer(minLength: 0)
+            }
+            .background(HE3Theme.surface)
+        }
+    }
+
+    private var councilButton: some View {
+        Button {
+            showCouncil = true
+        } label: {
+            HStack(spacing: 0) {
+                Rectangle().fill(HE3Theme.crimson).frame(width: 3)
+                VStack(alignment: .leading, spacing: 8) {
+                    HStack(spacing: 8) {
+                        SeriesMarks(height: 13, width: 3, spacing: 3)
+                        Text("PILLAR THREE \u{00B7} KEYSTONE")
+                            .font(BrandFont.mono(9, weight: .medium)).tracking(2)
+                            .foregroundStyle(HE3Theme.crimson)
+                        Spacer()
+                    }
+                    Text("THE COUNCIL")
+                        .font(BrandFont.display(24))
+                        .foregroundStyle(HE3Theme.textPrimary)
+                    Text("Bring a decision. Your three voices weigh in, then give you one read.")
+                        .font(BrandFont.body(14, weight: .light))
+                        .foregroundStyle(HE3Theme.ash)
+                }
+                .padding(18)
+                Spacer(minLength: 0)
             }
             .background(HE3Theme.surface)
         }

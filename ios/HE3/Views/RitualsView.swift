@@ -44,7 +44,7 @@ struct RitualsView: View {
             Text("SORT")
                 .font(BrandFont.mono(9, weight: .medium))
                 .tracking(2)
-                .foregroundStyle(HE3Theme.bone.opacity(0.5))
+                .foregroundStyle(HE3Theme.ashLight)
                 .padding(.trailing, 4)
 
             sortChip(title: "NEWEST", order: .newestFirst)
@@ -80,7 +80,7 @@ struct RitualsView: View {
         VStack(spacing: 16) {
             Image(systemName: "video.fill")
                 .font(.system(size: 44))
-                .foregroundStyle(HE3Theme.bone.opacity(0.3))
+                .foregroundStyle(HE3Theme.ashLight)
 
             Text("NO RITUALS RECORDED")
                 .font(BrandFont.display(22))
@@ -130,7 +130,7 @@ private struct RitualVideoCard: View {
                     Text("COURAGE RITUAL \u{00B7} \(durationLabel)")
                         .font(BrandFont.mono(10, weight: .medium))
                         .tracking(1)
-                        .foregroundStyle(HE3Theme.bone.opacity(0.6))
+                        .foregroundStyle(HE3Theme.ashLight)
                 }
 
                 if let note = video.note, !note.isEmpty {
@@ -145,7 +145,7 @@ private struct RitualVideoCard: View {
 
             Image(systemName: "chevron.right")
                 .font(.caption.weight(.semibold))
-                .foregroundStyle(HE3Theme.bone.opacity(0.3))
+                .foregroundStyle(HE3Theme.ashLight)
         }
         .padding(12)
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -185,14 +185,14 @@ private struct RitualPlayerSheet: View {
                             Spacer()
                             Text(video.date.formatted(date: .abbreviated, time: .shortened))
                                 .font(BrandFont.mono(10))
-                                .foregroundStyle(HE3Theme.bone.opacity(0.5))
+                                .foregroundStyle(HE3Theme.ashLight)
                         }
 
                         VStack(alignment: .leading, spacing: 8) {
                             Text("NOTE")
                                 .font(BrandFont.mono(10, weight: .medium))
                                 .tracking(1.5)
-                                .foregroundStyle(HE3Theme.bone.opacity(0.6))
+                                .foregroundStyle(HE3Theme.ashLight)
                             TextField("Add a private note", text: $noteDraft, axis: .vertical)
                                 .font(BrandFont.body(15, weight: .light))
                                 .foregroundStyle(HE3Theme.textPrimary)
@@ -294,11 +294,11 @@ private struct RitualPlayerSheet: View {
                 VStack(spacing: 8) {
                     Image(systemName: "video.slash")
                         .font(.system(size: 32))
-                        .foregroundStyle(HE3Theme.bone.opacity(0.4))
+                        .foregroundStyle(HE3Theme.ashLight)
                     Text("VIDEO FILE MISSING")
                         .font(BrandFont.mono(10, weight: .medium))
                         .tracking(1.5)
-                        .foregroundStyle(HE3Theme.bone.opacity(0.5))
+                        .foregroundStyle(HE3Theme.ashLight)
                 }
             }
             .clipShape(.rect(cornerRadius: 0))

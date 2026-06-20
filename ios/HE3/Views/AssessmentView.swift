@@ -8,12 +8,13 @@ struct AssessmentView: View {
     @State private var answers: [Int: Int] = [:]
     @State private var showResults = false
     @State private var appeared = false
+    @State private var advancing = false
     @State private var shuffledQuestions: [AssessmentQuestion] = []
 
     private var currentQuestion: AssessmentQuestion { shuffledQuestions[currentIndex] }
     private var overallProgress: Double {
         guard !shuffledQuestions.isEmpty else { return 0 }
-        return Double(answers.count) / Double(shuffledQuestions.count)
+        return Double(currentIndex) / Double(shuffledQuestions.count)
     }
 
     var body: some View {
@@ -47,6 +48,8 @@ struct AssessmentView: View {
 
     private var questionView: some View {
         VStack(spacing: 0) {
+            // Header. No subscale label, the assessment is blind so the result
+            // is not skewed by the man knowing which voice a statement scores.
             VStack(spacing: 14) {
                 HStack(alignment: .top) {
                     Button { onExit?() } label: {
@@ -62,10 +65,6 @@ struct AssessmentView: View {
                             .font(BrandFont.mono(10, weight: .medium))
                             .tracking(3)
                             .foregroundStyle(HE3Theme.ash)
-                        Text(currentQuestion.sub.rawValue)
-                            .font(BrandFont.mono(9, weight: .medium))
-                            .tracking(3)
-                            .foregroundStyle(HE3Theme.crimson)
                     }
                     Spacer()
                     Color.clear.frame(width: 32, height: 32)
@@ -100,19 +99,10 @@ struct AssessmentView: View {
 
             Spacer()
 
+            // Selecting a number advances automatically, so there is no Continue
+            // button. Only a quiet back arrow to change the previous answer.
             VStack(spacing: 18) {
-                Button { continueAction() } label: {
-                    Text(currentIndex < shuffledQuestions.count - 1 ? "CONTINUE" : "SEE RESULT")
-                        .font(BrandFont.display(20))
-                        .tracking(2)
-                        .foregroundStyle(HE3Theme.bone)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 18)
-                        .background(answers[currentQuestion.id] != nil ? HE3Theme.obsidian : HE3Theme.paperDark)
-                }
-                .disabled(answers[currentQuestion.id] == nil)
-
-                Text("34 questions · 7 minutes · clear signal")
+                Text("34 questions · 3 minutes · clear signal")
                     .font(BrandFont.quote(13))
                     .foregroundStyle(HE3Theme.ashLight)
 
@@ -123,6 +113,8 @@ struct AssessmentView: View {
                             .tracking(2)
                             .foregroundStyle(HE3Theme.ashLight)
                     }
+                } else {
+                    Color.clear.frame(height: 16)
                 }
             }
             .padding(.horizontal, 24)
@@ -145,6 +137,7 @@ struct AssessmentView: View {
                             .background(Circle().fill(isSelected ? HE3Theme.crimson : Color.clear))
                             .overlay(Circle().stroke(isSelected ? HE3Theme.crimson : HE3Theme.paperDark, lineWidth: 1.5))
                     }
+                    .disabled(advancing)
                     .sensoryFeedback(.selection, trigger: answers[currentQuestion.id])
                 }
             }
@@ -157,16 +150,19 @@ struct AssessmentView: View {
         }
     }
 
-    private func selectRating(_ value: Int) { answers[currentQuestion.id] = value }
-
-    private func continueAction() {
-        guard answers[currentQuestion.id] != nil else { return }
+    /// Tap a number, see it register for a beat, then move on automatically.
+    private func selectRating(_ value: Int) {
+        guard !advancing else { return }
+        answers[currentQuestion.id] = value
+        advancing = true
         Task {
+            try? await Task.sleep(for: .milliseconds(260))
             if currentIndex < shuffledQuestions.count - 1 {
                 withAnimation(.easeOut(duration: 0.2)) { appeared = false }
-                try? await Task.sleep(for: .milliseconds(150))
+                try? await Task.sleep(for: .milliseconds(140))
                 currentIndex += 1
                 withAnimation(.easeOut(duration: 0.35)) { appeared = true }
+                advancing = false
             } else {
                 withAnimation { showResults = true }
             }
@@ -174,7 +170,7 @@ struct AssessmentView: View {
     }
 
     private func goBack() {
-        guard currentIndex > 0 else { return }
+        guard currentIndex > 0, !advancing else { return }
         withAnimation(.easeOut(duration: 0.2)) { appeared = false }
         Task {
             try? await Task.sleep(for: .milliseconds(150))
@@ -183,8 +179,6 @@ struct AssessmentView: View {
         }
     }
 
-    /// Exact engine from the web: reverse items become 6 minus raw, then sum each
-    /// subscale. Unanswered defaults to neutral 3.
     private func computeScores() -> AssessmentScores {
         var sub: [AssessmentSubscale: Int] = [.ego: 0, .selfVoice: 0, .innate: 0, .integration: 0]
         for q in AssessmentData.questions {

@@ -41,11 +41,9 @@ struct HeroLandingView: View {
             AccessCodeSheet(
                 onAdmin: { showAdminPortal = true },
                 onReview: {
-#if DEBUG
                     withAnimation(.easeOut(duration: 0.4)) {
                         progress.godMode = true
                     }
-#endif
                 }
             )
             .presentationDetents([.medium, .large])
@@ -92,9 +90,15 @@ struct HeroLandingView: View {
             AnimatedLogoView(animate: true)
                 .opacity(appeared ? 1 : 0)
                 .offset(y: appeared ? 0 : 20)
-                .onLongPressGesture(minimumDuration: 1.2) {
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    showAccessCode = true
+                // Concealed owner entry: hold the logo for 3 seconds. Nothing is
+                // shown to a normal user, and it does nothing when owner preview
+                // is disabled for the App Store build.
+                .onLongPressGesture(minimumDuration: 3.0) {
+                    guard AppConfig.ownerPreviewEnabled else { return }
+                    UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+                    withAnimation(.easeOut(duration: 0.4)) {
+                        progress.godMode = true
+                    }
                 }
 
             Text("THE INTEGRATED MAN")
@@ -109,12 +113,10 @@ struct HeroLandingView: View {
                 .opacity(appeared ? 1 : 0)
                 .animation(.easeOut(duration: 0.8).delay(0.2), value: appeared)
 
-            HStack(spacing: 16) {
+            HStack(spacing: 18) {
                 ForEach(Voice.allCases) { voice in
-                    HStack(spacing: 6) {
-                        Rectangle()
-                            .fill(HE3Theme.voiceColor(voice))
-                            .frame(width: 7, height: 7)
+                    HStack(spacing: 7) {
+                        VoiceIcon(voice: voice, size: 16)
                         Text(voice.displayName.uppercased())
                             .font(BrandFont.mono(10, weight: .medium))
                             .tracking(2)
@@ -143,7 +145,7 @@ struct HeroLandingView: View {
 
             Spacer().frame(height: 8)
 
-            Text("End internal conflict. Rebuild self trust.\nLead your life from integrated power.")
+            Text("You don't need to kill your ego. You need to stop letting it drive. HE\u{00B3} gets your three voices working as one instead of at war.")
                 .font(BrandFont.body(18, weight: .regular))
                 .foregroundStyle(HE3Theme.ash)
                 .multilineTextAlignment(.center)
@@ -169,7 +171,7 @@ struct HeroLandingView: View {
             .animation(.easeOut(duration: 0.8).delay(0.6), value: appeared)
             .sensoryFeedback(.impact(weight: .medium), trigger: showAssessment)
 
-            Text("27 questions · 5 minutes · clear signal")
+            Text("34 questions · 3 minutes · clear signal")
                 .font(BrandFont.quote(13))
                 .foregroundStyle(HE3Theme.ashLight)
                 .opacity(appeared ? 1 : 0)
@@ -178,7 +180,7 @@ struct HeroLandingView: View {
             Button {
                 showPurchase = true
             } label: {
-                Text("SKIP TO THE 30-DAY SPRINT →")
+                Text("SKIP TO THE 30 DAY SPRINT →")
                     .font(BrandFont.mono(11, weight: .medium))
                     .tracking(1)
                     .foregroundStyle(HE3Theme.crimson)
@@ -193,14 +195,15 @@ struct HeroLandingView: View {
 
     private var painPointsSection: some View {
         VStack(spacing: 24) {
-            SectionHeader(label: "THE PROBLEM", title: "SOUND FAMILIAR?")
+            SectionHeader(label: "THE PROBLEM", title: "HOW MANY ARE YOU?")
 
             VStack(spacing: 8) {
-                PainPointRow(text: "You overthink every decision, then second guess it anyway")
-                PainPointRow(text: "You perform strength while suppressing what you actually feel")
-                PainPointRow(text: "You push through exhaustion instead of admitting you need space")
-                PainPointRow(text: "You feel split between who you are and who you present")
-                PainPointRow(text: "You\u{2019}ve lost touch with your gut instinct \u{2014} silence feels foreign")
+                PainPointRow(text: "Everyone leans on you. You wouldn't know who to call at 2am.")
+                PainPointRow(text: "\u{201C}I'm good\u{201D} is out of your mouth before the question even lands.")
+                PainPointRow(text: "You make fast, confident calls by steamrolling the gut that already knew.")
+                PainPointRow(text: "You hit the number. The hollow didn't move an inch.")
+                PainPointRow(text: "You feel everything. You'd sooner bleed than show it.")
+                PainPointRow(text: "You can't remember the last fully true thing you said out loud.")
             }
             .padding(.horizontal, 20)
         }
@@ -232,7 +235,7 @@ struct HeroLandingView: View {
                 VoiceCard(
                     voice: .innate,
                     tagline: "The Receiver",
-                    description: "Speaks through intuition and truth. The soul\u{2019}s signal \u{2014} always broadcasting, rarely heard."
+                    description: "Speaks through intuition and truth. The soul\u{2019}s signal, always broadcasting, rarely heard."
                 )
             }
             .padding(.horizontal, 20)
@@ -244,7 +247,7 @@ struct HeroLandingView: View {
         VStack(spacing: 24) {
             SectionHeader(label: "THE SYSTEM", title: "4 PILLARS. 30 DAYS.")
 
-            Text("A structured sprint \u{2014} not a course to binge.\nOne pillar per week. Execution, not consumption.")
+            Text("A structured sprint, not a course to binge.\nOne pillar per week. Execution, not consumption.")
                 .font(BrandFont.body(16, weight: .light))
                 .foregroundStyle(HE3Theme.ash)
                 .multilineTextAlignment(.center)
@@ -293,7 +296,7 @@ struct HeroLandingView: View {
 
                 Text("Most men finish in 30 days.\nThe men who transform start immediately.")
                     .font(BrandFont.body(14, weight: .light))
-                    .foregroundStyle(HE3Theme.bone.opacity(0.6))
+                    .foregroundStyle(HE3Theme.ash)
                     .multilineTextAlignment(.center)
                     .padding(.top, 8)
             }
@@ -308,7 +311,7 @@ struct HeroLandingView: View {
 
                 Text("He leads a mob. Holds a heart. Moves a mountain.")
                     .font(BrandFont.body(16, weight: .light))
-                    .foregroundStyle(HE3Theme.gold.opacity(0.7))
+                    .foregroundStyle(HE3Theme.crimson)
                     .multilineTextAlignment(.center)
                     .italic()
 
@@ -322,7 +325,7 @@ struct HeroLandingView: View {
             Button {
                 showAssessment = true
             } label: {
-                Text("ENTER THE 30-DAY SPRINT")
+                Text("ENTER THE 30 DAY SPRINT")
                     .font(BrandFont.display(20))
                     .tracking(2)
                     .foregroundStyle(HE3Theme.bone)
@@ -334,13 +337,13 @@ struct HeroLandingView: View {
 
             Text("Discover which voice runs your life\nand which ones you\u{2019}ve silenced")
                 .font(BrandFont.mono(10))
-                .foregroundStyle(HE3Theme.bone.opacity(0.5))
+                .foregroundStyle(HE3Theme.ashLight)
                 .multilineTextAlignment(.center)
 
             Button {
                 showPurchase = true
             } label: {
-                Text("SKIP TO THE 30-DAY SPRINT \u{2192}")
+                Text("SKIP TO THE 30 DAY SPRINT \u{2192}")
                     .font(BrandFont.mono(11, weight: .medium))
                     .tracking(1)
                     .foregroundStyle(HE3Theme.gold)
@@ -352,7 +355,7 @@ struct HeroLandingView: View {
                 Text("ALREADY A MEMBER? SIGN IN \u{2192}")
                     .font(BrandFont.mono(11, weight: .medium))
                     .tracking(1)
-                    .foregroundStyle(HE3Theme.bone.opacity(0.5))
+                    .foregroundStyle(HE3Theme.ashLight)
             }
 
             Spacer().frame(height: 60)
@@ -458,7 +461,7 @@ struct VoiceCard: View {
 
                     Text("\u{00B7} \(tagline)")
                         .font(BrandFont.mono(10))
-                        .foregroundStyle(HE3Theme.bone.opacity(0.5))
+                        .foregroundStyle(HE3Theme.ashLight)
                 }
 
                 Text(description)
@@ -542,7 +545,7 @@ struct ContainerStat: View {
             Text(label.uppercased())
                 .font(BrandFont.mono(8, weight: .medium))
                 .tracking(1)
-                .foregroundStyle(HE3Theme.bone.opacity(0.5))
+                .foregroundStyle(HE3Theme.ash)
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 16)

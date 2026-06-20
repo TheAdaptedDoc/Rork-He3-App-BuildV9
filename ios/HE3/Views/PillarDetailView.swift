@@ -306,7 +306,8 @@ struct SectionDetailView: View {
         LessonPlayerView(
             slug: section.id,
             fallbackTitle: section.videoTitle,
-            fallbackDuration: section.videoDuration
+            fallbackDuration: section.videoDuration,
+            previewMode: progress.godMode
         )
     }
 

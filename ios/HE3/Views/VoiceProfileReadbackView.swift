@@ -35,7 +35,8 @@ struct VoiceProfileReadbackView: View {
                     LessonPlayerView(
                         slug: "c_reading_profile",
                         fallbackTitle: "Reading Your Voice Profile",
-                        fallbackDuration: "7 MIN"
+                        fallbackDuration: "7 MIN",
+                        previewMode: progress.godMode
                     )
                     .padding(.horizontal, 24)
 

@@ -118,7 +118,7 @@ struct AssessmentIntroView: View {
                         .offset(y: appeared ? 0 : 12)
 
                     VStack(spacing: 12) {
-                        Text("HE\u{00B3} ALIGNMENT ASSESSMENT")
+                        Text("HE\u{00B3} VOICE DYNAMIC")
                             .font(BrandFont.mono(11, weight: .medium))
                             .tracking(3)
                             .foregroundStyle(HE3Theme.gold)
@@ -176,7 +176,7 @@ struct AssessmentIntroView: View {
                 .opacity(appeared ? 1 : 0)
                 .animation(.easeOut(duration: 0.6).delay(0.55), value: appeared)
 
-                Text("34 QUESTIONS \u{00B7} 7 MINUTES \u{00B7} CLEAR SIGNAL")
+                Text("34 QUESTIONS \u{00B7} 3 MINUTES \u{00B7} INSTANT RESULTS")
                     .font(BrandFont.mono(10))
                     .foregroundStyle(HE3Theme.ashLight)
                     .opacity(appeared ? 1 : 0)

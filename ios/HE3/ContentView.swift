@@ -4,6 +4,7 @@ struct ContentView: View {
     @State private var progress = UserProgressViewModel()
     @State private var journal = JournalViewModel()
     @State private var rituals = RitualVideoViewModel()
+    @State private var signalLog = SignalLogViewModel()
     @State private var selectedTab = 0
     @State private var showSplash: Bool = true
     @Environment(\.scenePhase) private var scenePhase
@@ -49,6 +50,7 @@ struct ContentView: View {
             progress.load()
             journal.load()
             rituals.load()
+            signalLog.load()
             configureAppearance()
             Task {
                 await auth.restore()
@@ -93,7 +95,7 @@ struct ContentView: View {
     private func mainTabView(_ mode: AccessState) -> some View {
         TabView(selection: $selectedTab) {
             Tab("Home", systemImage: "square.grid.2x2.fill", value: 0) {
-                DashboardView(progress: progress, journal: journal, rituals: rituals, accessState: mode)
+                DashboardView(progress: progress, journal: journal, rituals: rituals, signalLog: signalLog, accessState: mode)
             }
 
             Tab("Pillars", systemImage: "rectangle.stack.fill", value: 1) {

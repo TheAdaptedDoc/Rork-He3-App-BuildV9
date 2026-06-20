@@ -101,7 +101,7 @@ struct JournalView: View {
                 VStack(spacing: 12) {
                     Image(systemName: "square.and.pencil")
                         .font(.system(size: 36))
-                        .foregroundStyle(HE3Theme.bone.opacity(0.3))
+                        .foregroundStyle(HE3Theme.ashLight)
                     Text("NO PERSONAL ENTRIES")
                         .font(BrandFont.display(20))
                         .foregroundStyle(HE3Theme.textPrimary)
@@ -168,7 +168,7 @@ struct JournalView: View {
         VStack(spacing: 16) {
             Image(systemName: "book.closed")
                 .font(.system(size: 44))
-                .foregroundStyle(HE3Theme.bone.opacity(0.3))
+                .foregroundStyle(HE3Theme.ashLight)
 
             Text("NO JOURNAL ENTRIES")
                 .font(BrandFont.display(24))
